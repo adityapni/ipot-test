@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class WrongQRScreen extends StatelessWidget {
   const WrongQRScreen({super.key});
@@ -6,14 +7,18 @@ class WrongQRScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Text('This is not our table',
-          style: Theme.of(context).textTheme.headlineMedium,),
-          ElevatedButton(onPressed: (){
-            Navigator.pop(context);
-          }, child: Text('Scan again'))
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text('This is not our table',
+            style: Theme.of(context).textTheme.headlineMedium,),
+            ElevatedButton(onPressed: (){
+              context.go('/');
+            }, child: Text('Scan again'))
+          ],
+        ),
       ),
     );
   }

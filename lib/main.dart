@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'navigation/routes.dart';
 import 'utils/logger.dart';
+import 'state/services.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: '.env');
+  configureDependencies();
+
   runApp(const MyApp());
 }
 
 String getRouteForQr(String qrValue) {
   if (qrValue.startsWith('ipot://table/')) {
-    return 'menu_display';
+    return Uri(path:'menu_display',queryParameters: {'table_id':qrValue.split('/').last}).toString();
   }
   return 'wrong_qr';
 }

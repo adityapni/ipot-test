@@ -11,3 +11,11 @@ This is the core customer-facing flow:
 3. add items to cart
 4. submit order  
 5. track status.
+
+## Running 
+- To change API base url, replace API_URL in .env file.
+- Run `flutter pub get` to install dependencies.
+- Run `flutter run` to start the app.
+
+## Testing
+To run api_menu_test.dart, ensure baseUrl is the same as API_URL in .env file.
