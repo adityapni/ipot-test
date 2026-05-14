@@ -12,6 +12,25 @@ class CartScreen extends WatchingWidget {
 
   @override
   Widget build(BuildContext context) {
+    registerHandler(
+      select: (CartManager m )=> m.orderId,
+      handler: (context,orderId,cancel){
+        if(orderId != null){
+          context.go(Uri(path: '/order_confirmation',queryParameters: {'order_id':orderId}).toString());
+        }
+      }
+    );
+
+    registerHandler(
+      select: (CartManager m )=> m.error,
+      handler: (context, error,cancel){
+        if(error != null){
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(error)));
+        }
+      }
+    );
+    
     final orders = watchValue((CartManager cartManager)=> cartManager.orders);
     final orderCards = orders.map((e) => CartItemCard(
       subtotal: e.subtotal.toStringAsFixed(2), image: e.image, name: e.name,
@@ -51,8 +70,8 @@ class CartScreen extends WatchingWidget {
                   backgroundColor: Theme.of(context).colorScheme.primary,
                   foregroundColor: Theme.of(context).colorScheme.onPrimary
                 ),
-                onPressed: (){
-
+                onPressed: () {
+                  di.get<CartManager>().submitOrder();
                 },
                 child: Text('Place Order'))
             ],

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ipot/state/table_manager.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:watch_it/watch_it.dart';
 
 import 'navigation/routes.dart';
 import 'utils/logger.dart';
@@ -16,7 +18,9 @@ void main() async {
 
 String getRouteForQr(String qrValue) {
   if (qrValue.startsWith('ipot://table/')) {
-    return Uri(path:'menu_display',queryParameters: {'table_id':qrValue.split('/').last}).toString();
+    String tableId = qrValue.split('/').last;
+    di.get<TableManager>().setTableId(tableId: tableId);
+    return Uri(path:'menu_display',queryParameters: {'table_id':tableId}).toString();
   }
   return 'wrong_qr';
 }
@@ -35,7 +39,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'IPOT Test',
       theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: .fromSeed(seedColor: Colors.green),
       ),
       routerConfig: appRouter,
     );

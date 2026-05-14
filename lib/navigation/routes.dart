@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:ipot/screens/order_confirmation_screen.dart';
 
 import '../main.dart';
 import '../models/menu_response.dart';
@@ -37,6 +38,13 @@ final GoRouter appRouter = GoRouter(routes: [
   ),
   GoRoute(path: '/cart',
     builder: (context, state) => const CartScreen(),
+  ),
+  GoRoute(path: '/order_confirmation',
+    builder: (context,state)
+    {
+      String orderId = state.uri.queryParameters['order_id']??'';
+      return  OrderConfirmationScreen(orderId: orderId);
+    }
   )
 
 ]);

@@ -1,7 +1,11 @@
 
+import 'package:flutter/cupertino.dart';
+import 'package:ipot/models/order_submission.dart';
+import 'package:ipot/state/table_manager.dart';
 import 'package:listen_it/collections.dart';
 import 'package:watch_it/watch_it.dart';
 
+import '../api/api.dart';
 import '../models/customization.dart';
 import '../models/customization_type.dart';
 import '../models/menu_response.dart';
@@ -11,6 +15,9 @@ import 'menu_manager.dart';
 
 class CartManager {
   final orders = ListNotifier<Order>();
+  final isLoading = ValueNotifier<bool>(false);
+  final orderId = ValueNotifier<String?>(null);
+  final error = ValueNotifier<String?>(null);
 
   void addOrderToCart({required String orderName, required int quantity, String? note,
   Map<String,Customization>? customizations, int? customizationQuantity,
@@ -113,5 +120,30 @@ class CartManager {
     );
 
   }
+
+  void submitOrder() async {
+    error.value = null;
+    String tableId = di.get<TableManager>().tableId;
+    OrderSubmission orderSubmission = OrderSubmission(
+      tableId: tableId,
+      items: orders.value.map((e) => OrderItem(
+        menuItemId: int.parse(e.id),
+        quantity: int.parse(e.quantity),
+        customizations: e.orderCustomizations?.map((customization) => ItemCustomization(
+          optionId: customization.id,
+          quantity: customization.quantity
+        )).toList()
+      )).toList(),
+    );
+    isLoading.value = true;
+    final result =  await di.get<ApiService>().submitOrder(orderSubmission);
+    isLoading.value = false;
+    result.fold((success){
+      orderId.value = success.orderId;
+    }, (failure){
+      error.value = failure.toString();
+    });
+  }
+
 
 }

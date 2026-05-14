@@ -5,7 +5,7 @@ import 'package:ipot/models/menu_response.dart';
 import 'package:ipot/state/cart_manager.dart';
 import 'package:watch_it/watch_it.dart';
 
-import '../models/customization.dart';
+
 import '../state/customization_manager.dart';
 
 class CustomizationScreen extends WatchingWidget {
