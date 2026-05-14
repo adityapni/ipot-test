@@ -169,7 +169,7 @@ packages:
     source: hosted
     version: "6.1.0"
   listen_it:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: listen_it
       sha256: "4cfc307e943a25c7b500d173523dcebe966b0a323eaa07bd3769f563af19f065"

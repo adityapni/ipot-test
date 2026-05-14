@@ -43,6 +43,7 @@ dependencies:
   pretty_dio_logger: ^1.4.0
   get_it: ^9.2.1
   watch_it: ^2.4.2
+  listen_it: ^5.3.5
 
 dev_dependencies:
   flutter_test:

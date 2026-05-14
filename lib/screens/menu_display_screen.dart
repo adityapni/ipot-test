@@ -102,10 +102,21 @@ class MenuSearch extends StatelessWidget {
           );
         },
         suggestionsBuilder: (context,controller){
-          final menuNames = menu.map((e) => e.name).toList();
-          final suggestions = menuNames.where((element) => element.contains(controller.text));
-
-          return suggestions.map((e) => ListTile(title: Text(e),));
+          final suggestions = menu.where((e)=>e.name.toLowerCase().contains(controller.text.toLowerCase()));
+          return suggestions.map((e) => InkWell(
+            onTap: (){
+              controller.closeView(e.name);
+              context.push(Uri(path:'/menu_display/customization',queryParameters: {'name':e.name}).toString(),
+                extra: {
+                  'image': e.imageUrl,
+                  'description': e.description,
+                  'customization_groups': e.customizationGroups
+                },);
+            },
+            child: ListTile(
+              title: Text(e.name),
+            ),
+          ));
         }
     );
   }
@@ -129,6 +140,7 @@ class MenuList extends StatelessWidget {
           name: item.name,
           description: item.description,
           price: item.price.toString(),
+          customizationGroups: item.customizationGroups,
         );
       },
       itemCount: menu.length,

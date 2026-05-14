@@ -1,25 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../models/menu_response.dart';
 
 class MenuItemCard extends StatelessWidget {
   const MenuItemCard({super.key,
   this.image,
   this.name,
   this.description,
-  this.price});
+  this.price,
+  this.customizationGroups});
 
   final String? image;
   final String? name;
   final String? description;
   final String? price;
-
-  void goToCustomization(){
-    //TODO: Navigate to customization screen
-  }
+  final List<CustomizationGroup>? customizationGroups;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: goToCustomization,
+      onTap: (){
+        context.push(Uri(path:'/menu_display/customization',queryParameters: {'name':name}).toString(),
+          extra: {
+            'image': image,
+            'description': description,
+            'customization_groups': customizationGroups
+          },);
+      },
       child: Card(
         child: Row(
           children: [
